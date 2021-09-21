@@ -87,6 +87,97 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('That email is taken. Please choose a different one')
 
+class UpdateTeenager(FlaskForm):
+    username = StringField('Username', 
+                            validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', 
+                        validators=[DataRequired(), Email()])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+
+    age = IntegerField('Age', 
+                        validators=[DataRequired()])
+    city = StringField('City',  
+                            validators=[DataRequired(), Length(min=1, max=50)])                     
+    state = StringField('State',  
+                            validators=[DataRequired(), Length(min=1, max=50)])
+    gender = SelectField(
+        'Gender',
+        choices=[('f', 'Female'), ('m', 'Male'), ('gf', 'Genderfluid'), ('a', 'Agender'), 
+        ('tf', 'Transgender Female'), ('tm', 'Transgender Male'), ('i', 'Intersex'), 
+        ('nb', 'Nonbinary'), ('o', 'Other'), ('pnts', 'Prefer Not To Say')],
+        validators=[DataRequired()])
+    religious_affiliation = SelectField(
+        'Religious Affiliation',
+        choices=[('c', 'Christian'), ('m', 'Muslim'), ('j', 'Jewish'), ('h', 'Hindu'), ('b', 'Buddhist'), 
+        ('ar', 'Ancient Religion'), ('at', 'Athiest'), ('ag', 'Agnostic'), ('o', 'Other'), ('pnts', 'Prefer Not To Say')],
+        validators=[DataRequired()])
+    political_affiliation = SelectField(
+        'Political Affiliation',
+        choices=[('d', 'Democratic'), ('r', 'Republican'), ('i', 'Independent'), ('o', 'Other'), ('pnts', 'Prefer Not To Say')],
+        validators=[DataRequired()])
+    social_class = SelectField(
+        'Social Class',
+        choices=[('u', 'Upper'), ('um', 'Upper-Middle'), ('m', 'Middle'), ('w', 'Working'), ('l', 'Lower'), ('pnts', 'Prefer Not To Say')],
+        validators=[DataRequired()])
+    sexuality = SelectField(
+        'Sexuality',
+        choices=[('h', 'Heterosexual'), ('g', 'Gay/Lesbian'), ('b', 'Bisexual'), ('p', 'Pansexual'), ('a', 'Asexual'), ('q', 'Queer'), ('o', 'Other'), ('pnts', 'Prefer Not To Say')],
+        validators=[DataRequired()])
+    hobbies = StringField('Hobby(ies) (Comma Seperated)',  
+                            validators=[])
+    college_major = StringField('Prospective College Major(s) (Comma Seperated)',  
+                            validators=[])
+    career_field = StringField('Prospective Career Field(s) (Comma Seperated)',  
+                            validators=[])
+    phone_number = StringField('Phone Number', 
+                        validators=[DataRequired()])    
+    
+    submit = SubmitField('Update')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user == current_user:
+            return
+        if user: 
+            raise ValidationError('That username is taken. Please choose a different one')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user == current_user:
+            return 
+        if user:
+            raise ValidationError('That email is taken. Please choose a different one')
+
+class UpdateCompany(FlaskForm):
+    username = StringField('Username', 
+                            validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', 
+                        validators=[DataRequired(), Email()])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+
+    city = StringField('City',  
+                            validators=[DataRequired(), Length(min=1, max=50)])                     
+    state = StringField('State',  
+                            validators=[DataRequired(), Length(min=1, max=50)])  
+    company_name = StringField('Company Name',  
+                            validators=[DataRequired(), Length(min=1, max=50)])
+    submit = SubmitField('Update')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user == current_user:
+            return 
+        if user: 
+            raise ValidationError('That username is taken. Please choose a different one')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user == current_user:
+            return 
+        if user:
+            raise ValidationError('That email is taken. Please choose a different one')
+
+
 
 class CompanyRegistrationForm(FlaskForm):
     username = StringField('Username',  
@@ -159,6 +250,7 @@ class FilterForm(FlaskForm):
 
     submit = SubmitField('Filter')
 
+'''
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', 
                             validators=[DataRequired(), Length(min=2, max=20)])
@@ -238,7 +330,7 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. Please choose a different one')
-
+'''
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email', 
