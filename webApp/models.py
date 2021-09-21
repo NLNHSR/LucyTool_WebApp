@@ -1,4 +1,6 @@
 from datetime import datetime
+from enum import unique
+from itertools import filterfalse
 from os import name, replace, stat_result
 from typing import AsyncGenerator
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -12,7 +14,7 @@ def load_user(user_id):
  
 class User(db.Model, UserMixin): 
     id = db.Column(db.Integer, primary_key=True)
-    
+    user_id = db.Column(db.String(10), unique=True, nullable=False, default='User ID')
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')

@@ -24,7 +24,7 @@ def register():
         gender=form.gender.data, race=form.race.data, ethnicity=form.ethnicity.data, 
         religious_affiliation=form.religious_affiliation.data, political_affiliation=form.political_affiliation.data,
         social_class=form.social_class.data, sexuality=form.sexuality.data, hobbies=form.hobbies.data, 
-        college_major=form.college_major.data, career_field=form.career_field.data, phone_number=form.phone_number.data)
+        college_major=form.college_major.data, career_field=form.career_field.data, phone_number=form.phone_number.data, user_id=generate_id())
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
@@ -40,7 +40,7 @@ def register_company():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(user_type='company', username=form.username.data, email=form.email.data, password=hashed_password, 
-        company_name=form.company_name.data, city=form.city.data, state=form.state.data, birthday=datetime.now())
+        company_name=form.company_name.data, city=form.city.data, state=form.state.data, birthday=datetime.now(), user_id=generate_id())
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
@@ -167,7 +167,7 @@ def user_surveys(username):
 def assigned_surveys(username):
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
-    surveys = Survey.query.filter(Survey.assigned_to.contains(str(user.id)))\
+    surveys = Survey.query.filter(Survey.assigned_to.contains(str(user.user_id)))\
         .order_by(Survey.date_posted.desc())\
         .paginate(page=page, per_page=5)
     return render_template('teenager_surveys.html', surveys=surveys, user=user)
@@ -279,3 +279,13 @@ def filter_results():
     print(users)
     return render_template('filter_results.html', users=users)
 
+def generate_id():
+    import random
+
+    id = (''.join(random.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(8)))
+    user = User.query.filter(Survey.user_id == id).first()
+    while(user):
+        id = (''.join(random.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ') for i in range(8)))
+        user = User.query.filter(Survey.user_id == id).first()
+
+    return id

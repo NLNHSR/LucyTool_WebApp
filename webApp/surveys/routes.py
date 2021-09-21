@@ -37,7 +37,7 @@ def new_survey(users):
         search = User.query.all()
         for user in search:
             if user.email in sEmails:
-                ids += str(user.id) + ","
+                ids += str(user.user_id) + ","
 
         form.assigned_to.data = ids
 

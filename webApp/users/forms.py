@@ -10,6 +10,7 @@ import geonamescache
 
 
 class RegistrationForm(FlaskForm):
+    user_id = StringField('User Id')
     username = StringField('Username',  
                             validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', 
