@@ -49,7 +49,7 @@ def register_company():
 
 
 @users.route("/login", methods=['GET', 'POST'])
-def login():
+def login(): 
     #db.session.query(Model).delete()
     #db.session.commit()
     #db.drop_all()
