@@ -41,11 +41,11 @@ body {
   }
   
   .article-title {
-    color: #444444;
+    color: #2f009c;
   }
   
   a.article-title:hover {
-    color: #428bca;
+    color: #6e2fff;
     text-decoration: none;
   }
   

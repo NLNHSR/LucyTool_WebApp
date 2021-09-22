@@ -5,7 +5,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from webApp import db, bcrypt
 from webApp.models import Survey, User, Post
 from webApp.users.forms import (RegistrationForm, CompanyRegistrationForm, LoginForm,
-                                   RequestResetForm, ResetPasswordForm, FilterForm, UpdateCompany, UpdateTeenager)
+                                   RequestResetForm, ResetPasswordForm, FilterForm, SingleSearch, UpdateCompany, UpdateTeenager)
 from webApp.users.utils import save_picture, send_reset_email
 from datetime import datetime
 
@@ -278,6 +278,21 @@ def filter_results():
     users = User.query.all()
     print(users)
     return render_template('filter_results.html', users=users)
+
+@users.route("/search", methods=['GET', 'POST'])
+def single_search():
+    form = SingleSearch() 
+    if form.validate_on_submit():
+        #users = User.query.filter(str(User.user_id).strip == str(form.id.data).strip)
+        users = User.query.all()
+        user_found = None
+        for user in users:
+            if user.user_id == form.id.data:
+                user_found = user
+        #return redirect(url_for('users.filter_results'))
+        return render_template('single_results.html', user=user_found)
+    return render_template('single_search.html', title='Search Users', form=form)
+
 
 def generate_id():
     import random

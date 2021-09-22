@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h2><a class="article-title"></a>Search Results</a></h2>
+    {% if not user %}
+        <article class="media content-section">
+            <div class="media-body">
+                <h2><a class="article-title"></a>No users found</a></h2>
+            </div>
+        </article>
+    {% else %}
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}"> 
+            <div class="media-body">
+                <div class="article-metadata">
+                    <small class="mr-2">{{ user.username }}</small>
+                </div>
+                <h2><a class="article-title"></a>{{ user.first_name }}</a></h2>
+                <h2><a class="article-title"></a>{{ user.last_name }}</a></h2>
+                <h2><a class="article-title"></a>{{ user.phone_number }}</a></h2>
+                <h2><a class="article-title"></a>{{ user.email }}</a></h2>
+            </div>
+        </article>
+    {% endif %}
+{% endblock content %}
