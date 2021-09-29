@@ -274,7 +274,7 @@ def filter():
     return render_template('filter_search.html', title='Filter', form=form)
 
 @users.route("/filter/results", methods=['GET', 'POST'])
-def filter_results():
+def filter_results(): 
     users = User.query.all()
     print(users)
     return render_template('filter_results.html', users=users)
