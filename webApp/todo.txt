@@ -1,0 +1,3 @@
+add database column values to user table
+create survey database
+change form for teenager registration and company registration
